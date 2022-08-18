@@ -1,1 +1,47 @@
+# ------------------------------------------
+# 
+#   Project:
+#   Author:
+#   Created:
+#   Configuration:
+# 
+# ------------------------------------------
 
+# Library imports
+from vex import *
+
+# Begin project code
+
+def pre_autonomous():
+    # actions to do when the program starts
+    brain.screen.clear_screen()
+    brain.screen.print("pre auton code")
+    wait(1, SECONDS)
+
+def autonomous():
+    brain.screen.clear_screen()
+    brain.screen.print("autonomous code")
+    # place automonous code here
+
+def user_control():
+    brain.screen.clear_screen()
+    # place driver control in this while loop
+    while True:
+        rightDrive = (controller_1.axis4.value() - controller_1.axis3.value())
+        leftDrive = (controller_1.axis4.value() + controller_1.axis3.value())
+
+        Motor1.spin(FORWARD, leftDrive,PERCENT)
+        Motor3.spin(FORWARD, leftDrive,PERCENT) 
+        Motor2.spin(FORWARD, rightDrive,PERCENT)
+        Motor4.spin(FORWARD, rightDrive,PERCENT)
+
+
+        if controller_1.buttonR2.pressing():
+            Motor5.spin(FORWARD)
+            Motor6.spin(FORWARD)
+
+        wait(20, MSEC)
+
+# create competition instance
+comp = Competition(user_control, autonomous)
+pre_autonomous()
